@@ -1,0 +1,26 @@
+{
+  "name": "Twitter Fake Post Detection",
+  "description": "Detect Fake Twitter Post.",
+  "version": "1.0",
+  "manifest_version": 3,
+  "background": {
+    "service_worker": "background.js"
+  },
+  "permissions": ["storage", "activeTab", "scripting"],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "/images/check_64.png",
+      "32": "/images/check_64.png",
+      "48": "/images/check_64.png",
+      "128": "/images/check_64.png"
+    }
+  },
+  "icons": {
+    "16": "/images/check_64.png",
+    "32": "/images/check_64.png",
+    "48": "/images/check_64.png",
+    "128": "/images/check_64.png"
+  },
+  "options_page": "options.html"
+}
