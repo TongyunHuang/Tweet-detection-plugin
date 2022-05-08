@@ -1,5 +1,9 @@
 import os
-
+import re
+import torch
+import numpy as np
+import transformers
+from transformers import DistilBertTokenizerFast
 from flask import Flask, request
 from flask_cors import CORS, cross_origin
 import random
@@ -33,9 +37,18 @@ def create_app(test_config=None):
     def detectFake():
         post_text = request.args.get('text')
         print(post_text)
+        post_text = ' '.join(re.sub("(@[A-Za-z0-9]+)|([^0-9A-Za-z \t])|(\w+:\/\/\S+)"," ",post_text).split())
+        tokenizer = DistilBertTokenizerFast.from_pretrained("distilbert-base-uncased")
+        encoding = tokenizer(post_text, padding=True, truncation=True)
         # replace with classifiacation algorithm later
-        randomClassification = random.randint(0, 1)
-        print(randomClassification)
-        return str(randomClassification)
+        model = torch.load('model_file_A.pt')
+        model.eval()
+        inputid = torch.tensor(encoding['input_ids'])
+        attentionmask = torch.tensor(encoding['attention_mask'])
+        with torch.no_grad():
+            output = model(inputid.unsqueeze(0), attentionmask.unsqueeze(0))
+        label = np.argmax(output[0].numpy())
+        print(label)
+        return str(label)
 
     return app
