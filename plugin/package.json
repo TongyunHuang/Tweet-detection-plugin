@@ -1,0 +1,22 @@
+{
+  "name": "tweet-detection-plugin",
+  "version": "1.0.0",
+  "description": "Final project for CS510 ## Run API [Quickstart - Flask Document](https://flask.palletsprojects.com/en/2.1.x/quickstart/)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TongyunHuang/Tweet-detection-plugin.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TongyunHuang/Tweet-detection-plugin/issues"
+  },
+  "homepage": "https://github.com/TongyunHuang/Tweet-detection-plugin#readme",
+  "dependencies": {
+    "@webcomponents/custom-elements": "^1.5.0"
+  }
+}

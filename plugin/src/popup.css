@@ -1,0 +1,66 @@
+body{
+    height: 60px;
+    width: 200px;
+}
+#detectPost {
+  width:70%;
+  outline: none;
+  margin: 10px 30px 30px 30px;
+  padding: 10px;
+  border: none;
+  background-color: #65a9d9;
+  border-radius: 3px;
+  font-size: large;
+}
+
+#detectPost:hover{
+    cursor: pointer;
+    background-color: #2596be;
+    color: white;
+}
+
+button.current {
+  box-shadow: 0 0 0 2px white,
+              0 0 0 4px black;
+}
+.container{
+    width:100%;
+}
+
+#x{
+    position: absolute;
+    background-color: white;
+    top: 3px;
+    right: 3px;
+    border: none;
+    font-size: large;
+}
+#x:hover{
+    cursor: pointer;
+    color: grey;
+}
+
+#popup-head{
+    margin:10px 50px ;
+}
+#popup-head img{
+    margin: 0 5px;
+}
+#divider {
+    height: 2px;
+    width: 100%;
+    background: rgb(255, 255, 255);
+    background: linear-gradient(90deg, hsl(0, 3%, 46%), hsl(0, 0%, 5%), hsl(0, 29%, 97%));
+  }
+
+#popup-sub {
+    background-color: antiquewhite;
+}
+
+#popup-body{
+    margin: 0 10px;
+}
+
+#popup-body p{
+    font-size: 15px;
+}
