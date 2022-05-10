@@ -9,8 +9,8 @@ detectPost.addEventListener("click", async () => {
     
     chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
         chrome.tabs.sendMessage(tabs[0].id, {greeting: "hello"}, function(response) {
-            console.log(response.farewell)
-            alert("Start Detecting!");
+            console.log(response.message)
+            alert(response.message);
         });
     });
 });

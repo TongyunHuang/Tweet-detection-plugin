@@ -31,58 +31,81 @@ function addLable(labelDiv, labelType){
 }
 
 async function addFakePostLabel() {
+    // extract containers
+    containerName = ".css-1dbjc4n.r-j5o65s.r-qklmqi.r-1adg3ll.r-1ny4l3l"
+    let containerList = document.querySelectorAll(containerName);
 
-    // extract post text from dom
-    //css-901oao r-18jsvk2 r-37j5jr r-a023e6 r-16dba41 r-rjixqe r-bcqeeo r-bnwqim r-qvutc0
-    //css-901oao r-1nao33i r-37j5jr r-a023e6 r-16dba41 r-rjixqe r-bcqeeo r-bnwqim r-qvutc0
-    //css-901oao r-18jsvk2 r-37j5jr r-1b43r93 r-16dba41 r-hjklzo r-bcqeeo r-bnwqim r-qvutc0
-    //css-901oao r-18jsvk2 r-37j5jr r-a023e6 r-16dba41 r-rjixqe r-bcqeeo r-bnwqim r-qvutc0
-    //css-901oao r-18jsvk2 r-37j5jr r-1b43r93 r-16dba41 r-hjklzo r-bcqeeo r-bnwqim r-qvutc0
-    const className="css-901oao r-18jsvk2 r-37j5jr r-1b43r93 r-16dba41 r-hjklzo r-bcqeeo r-bnwqim r-qvutc0";
-    const classNameList = ".css-901oao.r-37j5jr.r-16dba41.r-bcqeeo.r-bnwqim.r-qvutc0"
-    // let list = document.getElementsByClassName(classNameList);
-    let list = document.querySelectorAll(classNameList);
-    
+    // extract post text container, post text, share button from containers
+    const textDivName = ".css-901oao.r-37j5jr.r-16dba41.r-bcqeeo.r-bnwqim.r-qvutc0"
+    let textContainerList = [];
     let textList = [];
-    for(let post of list)
-        textList.push(post.innerText);
+    let btnList = [];
+    for (let container of containerList){
+        // extract text div and post text
+        let textContainer = container.querySelector(textDivName)
+        textContainerList.push(textContainer)
+        textList.push(textContainer.innerText)
+        // extract button div
+        let btnDiv = container.querySelector('[aria-label="Share Tweet"]');
+        btnList.push(btnDiv);
+    }
     
-    // get label 
+    // Retrive post label by sending api request
     let labelList = [];
+    let subtask = ['random', 'random','random']
     for (let postText of textList){
-        let response = await fetch(`http://127.0.0.1:5000/api?text=${postText}`);
-        let data = await response.text();
-        labelList.push(data.slice());
-        
+        let curLabel = []
+        for (let task of subtask){
+            let response = await fetch(`http://127.0.0.1:5000/api/${task}?text=${postText}`);
+            let data = await response.text();
+            curLabel.push(data.slice());
+        }
+        labelList.push(curLabel);
     }
 
-    // add button listener
-    const btnList = ".css-18t94o4.css-1dbjc4n.r-1777fci.r-bt1l66.r-1ny4l3l.r-bztko3.r-lrvibr"
-    let btnElemList = document.querySelectorAll(classNameList);
-    for (brn of btnElemList){
-        
-    }
+    // Log debugging info here
+    console.log(labelList);
+    console.log('detectPost content jsx');
 
-
-
-    console.log(labelList)
-    console.log('detectPost content jsx')
-    // insert label
+    // Insert label
     for (let i=0; i < labelList.length; i++){
-        if (labelList[i] == '1'){
-            
-            let labelContainer = list[i].querySelector("labelContainer") || list[i].appendChild(document.createElement("div"));
-            labelContainer.className = "labelContainer";
-            labelContainer.style.cssText = "display: flex; justify-content:flex-end;  margin:10px 0px 10px auto;";
-            let labelDiv = labelContainer.appendChild(document.createElement("div"));
-            addLable(labelDiv, "trust");
-            let labelDiv1 = labelContainer.appendChild(document.createElement("div"));
-            addLable(labelDiv1, "harm");
-            
+        for (let j=0; j < labelList[i].length; j++){
+            if (labelList[i][j] == '1'){
+                let labelContainer = textContainerList[i].querySelector("labelContainer") || textContainerList[i].appendChild(document.createElement("div"));
+                labelContainer.className = "labelContainer";
+                labelContainer.style.cssText = "display: flex; justify-content:flex-end;  margin:10px 0px 10px auto;";
+                if (j===0){
+                    let labelDiv = labelContainer.appendChild(document.createElement("div"));
+                addLable(labelDiv, "trust");
+                }
+                else if (j===1){
+                    let labelDiv1 = labelContainer.appendChild(document.createElement("div"));
+                addLable(labelDiv1, "harm");
+                }
+                else{
+                    let labelDiv1 = labelContainer.appendChild(document.createElement("div"));
+                addLable(labelDiv1, "verify");
+                }
+                
+                
+            }
+        }
+    }
+
+    // Add button listener
+    for (let i=0; i < btnList.length; i++){
+        btn = btnList[i];
+        if (labelList[i][1] == '1'){
+            btn.addEventListener('click', event => {
+                 alert( 'Be careful! This post contains harmful content! ' );
+            });
         }
     }
 }
 
+/**
+ * Message Listener: execute addFakePostLabel Function when receive message from popup.js
+ */
 chrome.runtime.onMessage.addListener(
     function(request, sender, sendResponse) {
         console.log(sender.tab ?
@@ -91,11 +114,9 @@ chrome.runtime.onMessage.addListener(
 
         
         if (request.greeting == "hello"){
-            sendResponse({farewell: "goodbye"});
+            sendResponse({message:"Start Detecting!"});
             addFakePostLabel();
         }
-        //let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
         
-        
-        //return true;
 });
+
