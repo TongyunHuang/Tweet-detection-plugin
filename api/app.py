@@ -44,7 +44,8 @@ def create_app(test_config=None):
         tokenizer = DistilBertTokenizerFast.from_pretrained("distilbert-base-uncased")
         encoding = tokenizer(post_text, padding=True, truncation=True)
         # model detecting trustworthiness
-        model = torch.load('model_file_A.pt')
+        #model = torch.load('model_file_A.pt', map_location=torch.device('cpu'))
+        model = torch.load('model_file_A.pt',map_location ='cpu')
         model.eval()
         inputid = torch.tensor(encoding['input_ids'])
         attentionmask = torch.tensor(encoding['attention_mask'])
@@ -67,8 +68,8 @@ def create_app(test_config=None):
         tokenizer = DistilBertTokenizerFast.from_pretrained("distilbert-base-uncased")
         encoding = tokenizer(post_text, padding=True, truncation=True)
         
-        # TODO: replace with verifiable algorithm later
-        model = torch.load('model_file_A.pt')
+        # verifiable algorithm
+        model = torch.load('model_file_B.pt',map_location ='cpu')
         model.eval()
         inputid = torch.tensor(encoding['input_ids'])
         attentionmask = torch.tensor(encoding['attention_mask'])
@@ -91,8 +92,8 @@ def create_app(test_config=None):
         tokenizer = DistilBertTokenizerFast.from_pretrained("distilbert-base-uncased")
         encoding = tokenizer(post_text, padding=True, truncation=True)
 
-        # TODO: replace with harmful model later
-        model = torch.load('model_file_A.pt')
+        # harmful model
+        model = torch.load('model_file_C.pt',map_location ='cpu')
         model.eval()
         inputid = torch.tensor(encoding['input_ids'])
         attentionmask = torch.tensor(encoding['attention_mask'])

@@ -8,7 +8,12 @@ function addLable(labelDiv, labelType){
                           "text": "This post is harmful!" },
                 "verify":{"color": "green", 
                           "img": "https://img.icons8.com/color/24/000000/checked--v4.png",
-                          "text": "This claim is verifiable." }
+                          "text": "This claim is verifiable." },
+                "load":{"color": "blue", 
+                        "img": "/images/check_64.png",
+                        "text": "Loading..." 
+
+                }
             }
     
     labelDiv.style.display = "flex";
@@ -32,8 +37,7 @@ function addLable(labelDiv, labelType){
 
 async function addFakePostLabel() {
     // extract containers
-    containerName = ".css-1dbjc4n.r-j5o65s.r-qklmqi.r-1adg3ll.r-1ny4l3l"
-    let containerList = document.querySelectorAll(containerName);
+    let containerList = document.querySelectorAll('[data-testid="tweet"]')
 
     // extract post text container, post text, share button from containers
     const textDivName = ".css-901oao.r-37j5jr.r-16dba41.r-bcqeeo.r-bnwqim.r-qvutc0"
@@ -49,10 +53,19 @@ async function addFakePostLabel() {
         let btnDiv = container.querySelector('[aria-label="Share Tweet"]');
         btnList.push(btnDiv);
     }
+
+    // Add "loading..." to all post
+    let loadList = []
+    for (let i=0; i < textContainerList.length; i++){
+        let loadDiv = textContainerList[i].appendChild(document.createElement("div"));
+        let loadText = loadDiv.appendChild(document.createTextNode("Loading..."));
+        loadDiv.style.color = "blue";
+        loadList.push(loadDiv);
+    }
     
     // Retrive post label by sending api request
     let labelList = [];
-    let subtask = ['random', 'random','random']
+    let subtask = ['trust', 'harm','verify']
     for (let postText of textList){
         let curLabel = []
         for (let task of subtask){
@@ -61,6 +74,11 @@ async function addFakePostLabel() {
             curLabel.push(data.slice());
         }
         labelList.push(curLabel);
+    }
+
+    // remove loading div
+    for (elem of loadList){
+        elem.parentNode.removeChild(elem);
     }
 
     // Log debugging info here
@@ -74,18 +92,17 @@ async function addFakePostLabel() {
                 let labelContainer = textContainerList[i].querySelector("labelContainer") || textContainerList[i].appendChild(document.createElement("div"));
                 labelContainer.className = "labelContainer";
                 labelContainer.style.cssText = "display: flex; justify-content:flex-end;  margin:10px 0px 10px auto;";
-                if (j===0){
-                    let labelDiv = labelContainer.appendChild(document.createElement("div"));
-                addLable(labelDiv, "trust");
-                }
-                else if (j===1){
-                    let labelDiv1 = labelContainer.appendChild(document.createElement("div"));
-                addLable(labelDiv1, "harm");
-                }
-                else{
-                    let labelDiv1 = labelContainer.appendChild(document.createElement("div"));
-                addLable(labelDiv1, "verify");
-                }
+                let labelDiv = labelContainer.appendChild(document.createElement("div"));
+                addLable(labelDiv, subtask[j]); // uncommend this when all apis were tested
+                // if (j===0){
+                //     addLable(labelDiv, "trust");
+                // }
+                // else if (j===1){
+                //     addLable(labelDiv, "harm");
+                // }
+                // else{
+                //     addLable(labelDiv, "verify");
+                // }
                 
                 
             }
