@@ -8,8 +8,9 @@
   },
   "content_scripts": [
     {
-      "matches": ["https://*.twitter.com/*"],
-      "js": ["content.js"]
+      "matches": ["https://twitter.com/*","https://*.twitter.com/*" ],
+      "js": ["content.js"],
+      "run_at": "document_end"
     }
   ],
   "permissions": ["storage", "activeTab", "scripting",  "tabs", "webNavigation"],

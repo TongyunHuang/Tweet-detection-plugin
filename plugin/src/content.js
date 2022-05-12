@@ -36,6 +36,10 @@ function addLable(labelDiv, labelType){
 }
 
 async function addFakePostLabel() {
+    let recUserList = document.querySelectorAll('[data-testid="UserCell"]')
+    for (elem of recUserList){
+        elem.parentNode.removeChild(elem);
+    }
     // extract containers
     let containerList = document.querySelectorAll('[data-testid="tweet"]')
 
@@ -94,16 +98,6 @@ async function addFakePostLabel() {
                 labelContainer.style.cssText = "display: flex; justify-content:flex-end;  margin:10px 0px 10px auto;";
                 let labelDiv = labelContainer.appendChild(document.createElement("div"));
                 addLable(labelDiv, subtask[j]); // uncommend this when all apis were tested
-                // if (j===0){
-                //     addLable(labelDiv, "trust");
-                // }
-                // else if (j===1){
-                //     addLable(labelDiv, "harm");
-                // }
-                // else{
-                //     addLable(labelDiv, "verify");
-                // }
-                
                 
             }
         }
@@ -120,6 +114,11 @@ async function addFakePostLabel() {
     }
 }
 
+let recUserList = document.querySelectorAll('[data-testid="UserCell"]')
+for (elem of recUserList){
+    elem.parentNode.removeChild(elem);
+}
+console.log(recUserList);
 /**
  * Message Listener: execute addFakePostLabel Function when receive message from popup.js
  */
@@ -136,4 +135,5 @@ chrome.runtime.onMessage.addListener(
         }
         
 });
+
 
