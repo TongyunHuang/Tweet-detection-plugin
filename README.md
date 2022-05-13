@@ -25,6 +25,11 @@ git clone https://github.com/TongyunHuang/Tweet-detection-plugin.git
 
 
 # Run API
+## Install model
+Install models in [Google Drive](https://drive.google.com/file/d/17n5SRuLEPj2ZAgC-ElhbnMI-BxKoBLk5/view?usp=sharing), unzip the folder and put `model_file_A.pt`, `model_file_B.pt` and `model_file_C.pt` in the `/api` directory
+
+## REST API
+
 You may want to install flask if you havnt done so:
 ```
 pip install Flask
@@ -45,17 +50,37 @@ If you have already setup environment variables `FLASK_APP` and `FLASK_ENV`, you
 
 
 
-# Add Extension to chrome
+# Extension Usage
 
-### 1. Visit: [chrome://extensions/](chrome://extensions/)
+1. Visit: [chrome://extensions/](chrome://extensions/)
 
-### 2. Turn on Developer Mode (top right corner)
-<img style="width:300px" src="images/developer-mode.png">
+2. Turn on Developer Mode (top right corner)
 
-### 3. Upload the folder containing `manifest.json` file
+    <p align="center"><img style="width:200px" src="images/developer-mode.png"></p>
 
-(1) Click `Load unpacked` in the top right corner
+3. Upload the folder containing `manifest.json` file
 
-<img style="width:200px" src="images/start-upload.png">
+    (1).  Click `Load unpacked` in the top right corner
 
-(2) Choose the 
+    <p align="center"><img style="width:200px" src="images/start-upload.png"></p>
+
+    (2). Choose the `plugin/src` folder, which contains the `manifest.json` file
+
+    <p align="center"><img style="width:200px" src="images/upload-extension.png"></p>
+
+    - You shoule see that uploaded extension in chrome extension manager
+
+        <p align="center"><img style="width:200px" src="images/extension-uploaded.png"></p>
+
+4. Pin the extension to the toolbar
+    
+    <p align="center"><img style="width:200px" src="images/pin.png"></p>
+
+5. Go to twitter and start detecting
+
+    <p align="center"><img style="width:150px" src="images/popup.png"></p>
+
+    - It might take about a minute to run, but eventually you will see tha generated labels. You will also see alert pops up when you try to retweet harmful post
+    
+        <p align="center"><img style="width:300px" src="images/result.png"></p>
+
