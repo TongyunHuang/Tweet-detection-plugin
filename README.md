@@ -66,11 +66,11 @@ If you have already setup environment variables `FLASK_APP` and `FLASK_ENV`, you
 
     (2). Choose the `plugin/src` folder, which contains the `manifest.json` file
 
-    <p align="center"><img style="width:200px" src="images/upload-extension.png"></p>
+    <p align="center"><img style="width:300px" src="images/upload-extension.png"></p>
 
     - You shoule see that uploaded extension in chrome extension manager
 
-        <p align="center"><img style="width:200px" src="images/extension-uploaded.png"></p>
+        <p align="center"><img style="width:300px" src="images/extension-uploaded.png"></p>
 
 4. Pin the extension to the toolbar
     
